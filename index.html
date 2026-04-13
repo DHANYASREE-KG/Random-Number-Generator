@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guess the Number</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', 'Segoe UI', -apple-system, sans-serif;
+            background: linear-gradient(135deg, #f5a962 0%, #f77f88 50%, #d946ef 100%);
+            background-attachment: fixed;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            overflow-x: hidden;
+        }
+        
+        .container {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 60px 45px;
+            border-radius: 25px;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.2), 
+                        0 0 1px rgba(255, 255, 255, 0.2) inset;
+            text-align: center;
+            width: 100%;
+            max-width: 500px;
+            animation: slideInUp 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        
+        @keyframes slideInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        h1 {
+            color: #f5a962;
+            margin-bottom: 10px;
+            font-size: 36px;
+            font-weight: 800;
+            letter-spacing: -1px;
+            background: linear-gradient(135deg, #f5a962 0%, #d946ef 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .subtitle {
+            color: #999;
+            font-size: 13px;
+            margin-bottom: 35px;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+        }
+        
+        .input-group {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 35px;
+            background: #f7f7f7;
+            padding: 8px;
+            border-radius: 15px;
+            border: 1px solid #e0e0e0;
+            transition: all 0.3s ease;
+        }
+        
+        .input-group:focus-within {
+            background: #fff;
+            border-color: #f5a962;
+            box-shadow: 0 0 0 3px rgba(245, 169, 98, 0.15);
+        }
+        
+        input {
+            flex: 1;
+            padding: 14px 16px;
+            font-size: 16px;
+            border: none;
+            outline: none;
+            background: transparent;
+            font-weight: 600;
+            color: #333;
+        }
+        
+        input::placeholder {
+            color: #bbb;
+            font-weight: 500;
+        }
+        
+        button {
+            padding: 14px 32px;
+            font-size: 15px;
+            background: linear-gradient(135deg, #f5a962 0%, #d946ef 100%);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+            font-weight: 700;
+            box-shadow: 0 8px 20px rgba(245, 169, 98, 0.35);
+            text-transform: uppercase;
+            font-size: 14px;
+            letter-spacing: 0.5px;
+            flex-shrink: 0;
+        }
+        
+        button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 30px rgba(245, 169, 98, 0.5);
+        }
+        
+        button:active {
+            transform: translateY(-1px);
+        }
+        
+        .result-box {
+            background: #f7f7f7;
+            border-radius: 15px;
+            padding: 25px;
+            margin: 30px 0;
+            min-height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px solid #e0e0e0;
+            transition: all 0.3s ease;
+        }
+        
+        #result {
+            font-size: 22px;
+            color: #333;
+            font-weight: 700;
+            transition: all 0.4s ease;
+            letter-spacing: 0.3px;
+        }
+        
+        #result.correct {
+            color: #10b981;
+            animation: successBounce 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        
+        #result.wrong {
+            color: #ef4444;
+            animation: errorShake 0.5s ease;
+        }
+        
+        @keyframes successBounce {
+            0% { 
+                transform: scale(0.5);
+                opacity: 0;
+            }
+            50% { 
+                transform: scale(1.15);
+            }
+            100% { 
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+        
+        @keyframes errorShake {
+            0%, 100% { transform: translateX(0) rotateZ(0deg); }
+            10%, 30%, 50%, 70%, 90% { transform: translateX(-8px) rotateZ(-1deg); }
+            20%, 40%, 60%, 80% { transform: translateX(8px) rotateZ(1deg); }
+        }
+        
+        .score-box {
+            background: linear-gradient(135deg, #f5a96215 0%, #d946ef15 100%);
+            border: 2px solid #f5a96230;
+            border-radius: 15px;
+            padding: 18px;
+            margin-top: 25px;
+        }
+        
+        #Score {
+            font-size: 18px;
+            color: #f5a962;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+        }
+        
+        /* Responsive */
+        @media (max-width: 600px) {
+            .container {
+                padding: 40px 25px;
+                max-width: 100%;
+            }
+            
+            h1 {
+                font-size: 28px;
+            }
+            
+            input-group {
+                flex-direction: column;
+            }
+            
+            button {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Guess the Number</h1>
+        <p class="subtitle">Pick a number between 1-10</p>
+        <div class="input-group">
+            <input id="guessnumber" type="number" placeholder="Enter your guess...">
+            <button onclick="check( )">Check</button>
+        </div>
+        <div class="result-box">
+            <p id="result">You are Wrong/Right</p>
+        </div>
+        <div class="score-box">
+            <p id="Score">Score:10</p>
+        </div>
+    </div>
+
+<script>
+   var guess = document.getElementById("guessnumber")
+   var para = document.getElementById("result")
+   var randomnumber =Math.floor(Math.random()*10)+1
+   var scorepara = document.getElementById("Score")
+   var score = 10
+   function check()
+   {
+      var enterednumber = parseInt(guess.value)
+      if(enterednumber == randomnumber)
+      {
+         console.log("You are Right")
+         para.textContent = "You are Right"
+         para.className = "correct"
+         guess.value = ""
+      } 
+      else
+      {
+         score = score - 1
+         scorepara.textContent ="Score:" + score
+         console.log("You are Wrong")  
+         para.textContent = "You are Wrong"
+         para.className = "wrong"
+         guess.value = ""
+      }
+   }
+</script>
+</body>
+</html> 
