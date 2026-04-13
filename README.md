@@ -63,7 +63,7 @@ Try to guess the randomly generated number between **1 and 10** and track your s
 
 1. Clone this repository:
    ```bash
-   git clone https://github.com/your-username/guess-the-number.git
+   git clone https://github.com/DHANYASREE-KG/Random-Number-Generator
    ```
 
 2. Open the project folder
